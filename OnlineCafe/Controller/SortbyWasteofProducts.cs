@@ -8,5 +8,6 @@ namespace OnlineCafe.Controller
 {
     internal class SortbyWasteofProducts
     {
+
     }
 }

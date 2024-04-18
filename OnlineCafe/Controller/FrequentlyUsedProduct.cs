@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineCafe.Controller
 {
-    internal class DishesSorting
+    internal class FrequentlyUsedProduct
     {
     }
 }

@@ -8,5 +8,10 @@ namespace OnlineCafe.Model
 {
     internal class Dishes
     {
+        public string? Name;
+        public decimal Price;
+        List<Product>? Ingredients;
+        public float weight;
+
     }
 }

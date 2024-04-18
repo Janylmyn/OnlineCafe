@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace OnlineCafe.Model
 {
-    internal class FrequentlyUsedProduct
+    public class Product
     {
+        public string? Name { get; set; }
+        public  float Gramprice { get; set; }
+
+      
     }
+
 }
