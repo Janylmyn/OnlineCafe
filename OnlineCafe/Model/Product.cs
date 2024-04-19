@@ -9,7 +9,7 @@ namespace OnlineCafe.Model
     public class Product
     {
         public string? Name { get; set; }
-        public  float Gramprice { get; set; }
+        public  decimal Gramprice { get; set; }
 
       
     }
