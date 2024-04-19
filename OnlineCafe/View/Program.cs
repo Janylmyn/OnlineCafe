@@ -11,7 +11,7 @@ namespace OnlineCafe.View
         public static void Main(string[] args)
         {
 
-
+            Console.WriteLine("HEllo world");
 
 
         }
