@@ -10,8 +10,9 @@ namespace OnlineCafe.Model
     {
         public string? Name;
         public decimal Price;
-        List<Product>? Ingredients;
+        public List<Product>? Ingredients;
         public float weight;
+        
 
     }
 }

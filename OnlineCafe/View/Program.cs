@@ -11,9 +11,10 @@ namespace OnlineCafe.View
         public static void Main(string[] args)
         {
 
-            Console.WriteLine("HEllo world");
 
+            Console.WriteLine("Создание базы данных");
 
+            Console.WriteLine("dfsdf");
         }
     }
 }
