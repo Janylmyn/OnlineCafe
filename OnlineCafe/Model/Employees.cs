@@ -8,9 +8,9 @@ namespace OnlineCafe.Model
 {
     internal class Employees
     {
-        public string? Job;
-        public decimal? Wage;
-        public decimal Working_hours;
+        public string? Role;
+        public decimal? Salary;
+        public decimal Schedule;
 
     }
 }
