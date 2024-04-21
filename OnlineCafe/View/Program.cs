@@ -10,7 +10,20 @@ namespace OnlineCafe.View
 {
     class Program
     {
-
         static void Main(string[] args)
+        {
+            RestaurantInfo rest1 = new RestaurantInfo
+            {
+                RestaurantName = "Империя пиццы",
+                Chef = "Ким Артур"
+            };
+            RestaurantInfo rest2 = new RestaurantInfo
+            {
+                RestaurantName = "Додо Пицца",
+                Chef = "Павлов Антон"
+            };
+        }
+        
+        
     }
 }
