@@ -8,10 +8,11 @@ namespace OnlineCafe.Model
 {
     internal class RestaurantI
     {
+        public int id;
         public string? Name { get; set; }
         public string? Description { get; set; }
         public List<Employees>? Employees;
         public decimal? Service { get; set; }
-
+        List<Dishes>? menu;
     }
 }
