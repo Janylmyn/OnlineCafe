@@ -13,6 +13,5 @@ namespace OnlineCafe.Model
         public string? Position { get; set; }
         public decimal Salary { get; set; }
         public decimal Schedule { get; set; }
-
     }
 }
