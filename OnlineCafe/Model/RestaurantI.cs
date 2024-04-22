@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnlineCafe.Model
 {
-    internal class RestaurantInfo 
+    public class RestaurantInfo 
     {
         public string? RestaurantName {  get; set; }
-        public string? Chef { get; set; } // Имя шефа этого ресторана
+        public Employee? Chef;
         private List<Dishes> Menu; // Список блюд ресторана
-        public string? Description { get; set; } // Описание ресторана
         public List<Employee>? Employee;
         public decimal ServiceCharge { get; set; } // Обслуживание ресторана
 
