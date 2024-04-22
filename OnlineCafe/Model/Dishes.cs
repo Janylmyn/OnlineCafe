@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnlineCafe.Model
 {
-    internal class Dishes
+    public class Dishes
     {
         public string? Name;
         public decimal Price;
-        List<Product>? Ingredients;
+        public List<Product>? Ingredients;
         public float weight;
 
     }
