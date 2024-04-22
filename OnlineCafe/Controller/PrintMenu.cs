@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace OnlineCafe.Controller
 {
     internal class ShowMenu
-    {;
-            public Menu(string RestaurantName, decimal Price, List<Dishes>)
+    {
+            public ShowMenu(string RestaurantName, decimal Price, List<Dishes> listdishes)
             {
                 Console.WriteLine($"Меню ресторана {RestaurantName}:");
-                foreach (var dishes in List<Dishes>)
+                foreach (var dishes in listdishes)
                 {
                     Console.WriteLine($"{dishes.Name} - {dishes.Price} сом.");
                 }

@@ -12,10 +12,6 @@ namespace OnlineCafe.Controller
     {
 
 
-        public List<Product> Ingredients(Product product)
-        {
-
-            return new List<Product>();
-        }
+    
     }
 }

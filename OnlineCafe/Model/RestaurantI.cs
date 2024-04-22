@@ -10,8 +10,8 @@ namespace OnlineCafe.Model
     {
         public string? RestaurantName {  get; set; }
         public string? Chef { get; set; } // Имя шефа этого ресторана
-        private List<Dishes> Menu = new List<Dishes>(); // Список блюд ресторана
-        public string Description { get; set; } // Описание ресторана
+        private List<Dishes> Menu; // Список блюд ресторана
+        public string? Description { get; set; } // Описание ресторана
         public List<Employee>? Employee;
         public decimal ServiceCharge { get; set; } // Обслуживание ресторана
 
