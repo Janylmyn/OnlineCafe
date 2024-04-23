@@ -16,10 +16,11 @@ namespace OnlineCafe.Controller
             cmd.Connection = conn;
 
 
-            cmd.CommandText = "INSERT INTO product (_name,price,id) VALUES (@_name ,@price,@id)";
+            cmd.CommandText = "INSERT INTO product (id,name,typeproduct,price) VALUES (@id,@name,@typeproduct,@price)";
 
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);
-            cmd.Parameters.AddWithValue("_name", NpgsqlTypes.NpgsqlDbType.Text, product.Name!);
+            cmd.Parameters.AddWithValue("name", NpgsqlTypes.NpgsqlDbType.Varchar, product.Name!);
+            cmd.Parameters.AddWithValue("typeproduct", NpgsqlTypes.NpgsqlDbType.Varchar, product.TypeProduct!);
             cmd.Parameters.AddWithValue("price", NpgsqlTypes.NpgsqlDbType.Numeric, product.Gramprice);
 
             cmd.ExecuteNonQuery();
@@ -37,7 +38,7 @@ namespace OnlineCafe.Controller
             
             while (reader.Read())
             {
-                Console.WriteLine($" id: {reader["id"]},Название: {reader["_name"]}, цена за грамм: {reader["price"]}");
+                Console.WriteLine($" id: {reader["id"]},Название: {reader["name"]}, тип :{reader["typeproduct"]}, цена за грамм: {reader["price"]}");
                
             }
 
@@ -64,11 +65,12 @@ namespace OnlineCafe.Controller
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "UPDATE product SET _name = @newName, price = @newPrice WHERE id = @id";
+            cmd.CommandText = "UPDATE product SET name = @newName, typeproduct = @Newtype, price = @newPrice  WHERE id = @id";
 
 
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);
-            cmd.Parameters.AddWithValue("newName", NpgsqlTypes.NpgsqlDbType.Text, product.Name!);
+            cmd.Parameters.AddWithValue("newName", NpgsqlTypes.NpgsqlDbType.Varchar, product.Name!);
+            cmd.Parameters.AddWithValue("Newtype", NpgsqlTypes.NpgsqlDbType.Varchar, product.TypeProduct!);
             cmd.Parameters.AddWithValue("newPrice", NpgsqlTypes.NpgsqlDbType.Numeric,product.Gramprice);
 
             cmd.ExecuteNonQuery();
