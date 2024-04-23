@@ -10,9 +10,9 @@ namespace OnlineCafe.Model
     {
         public int id;
         public string? Name { get; set; }
-        public string? Description { get; set; }
+        public Employees? Chef { get; set; }
         public List<Employees>? Employees;
         public decimal? Service { get; set; }
-        List<Dishes>? menu;
+        public List<Dishes>? menu;
     }
 }
