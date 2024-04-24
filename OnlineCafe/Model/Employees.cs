@@ -8,6 +8,7 @@ namespace OnlineCafe.Model
 {
     internal class Employees
     {
+        int id;
         public string? Name;
         public string? Job;
         public decimal? Wage;
