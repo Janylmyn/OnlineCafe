@@ -50,7 +50,7 @@ namespace OnlineCafe.Controller
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "DELETE FROM product WHERE id = @value";
+            cmd.CommandText = "DELETE FROM products WHERE id = @value";
 
             
             cmd.Parameters.AddWithValue("value", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);
@@ -65,7 +65,7 @@ namespace OnlineCafe.Controller
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "UPDATE product SET name = @newName, typeproduct = @Newtype, price = @newPrice  WHERE id = @id";
+            cmd.CommandText = "UPDATE products SET name = @newName, typeproduct = @Newtype, price = @newPrice  WHERE id = @id";
 
 
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);
