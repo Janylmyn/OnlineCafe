@@ -6,7 +6,7 @@ namespace OnlineCafe.Controller
 
     public class ProductController
     {
-        readonly string connString = "Server=localhost;Port=5432;Username=postgres;Password=0558200511;Database=OnlineRestaurant";
+        readonly string connString = "Server=onlinecafe.postgres.database.azure.com;Database=postgres;Port=5432;User Id=onlineRestaurant;Password= Azamat2005;Ssl Mode=Require;";
         public void AddProduct(Product product)
         {
           
@@ -16,7 +16,7 @@ namespace OnlineCafe.Controller
             cmd.Connection = conn;
 
 
-            cmd.CommandText = "INSERT INTO product (id,name,typeproduct,price) VALUES (@id,@name,@typeproduct,@price)";
+            cmd.CommandText = "INSERT INTO products (id,name,typeproduct,price) VALUES (@id,@name,@typeproduct,@price)";
 
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);
             cmd.Parameters.AddWithValue("name", NpgsqlTypes.NpgsqlDbType.Varchar, product.Name!);
@@ -33,7 +33,7 @@ namespace OnlineCafe.Controller
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
 
-            using var cmd = new NpgsqlCommand("SELECT * FROM product", conn);
+            using var cmd = new NpgsqlCommand("SELECT * FROM products", conn);
             using var reader = cmd.ExecuteReader();
             
             while (reader.Read())

@@ -33,7 +33,7 @@ namespace OnlineCafe.View
             controller.AddProduct(product);
 
             controller.Getall();
-            Console.WriteLine("Удалите Продукт");
+ /*           Console.WriteLine("Удалите Продукт");
             product.Id = Convert.ToInt32(Console.ReadLine());
             controller.DeliteProduct(product);
 
@@ -50,7 +50,7 @@ namespace OnlineCafe.View
 
             controller.EditProduct(product);
 
-            controller.Getall();
+            controller.Getall();*/
         }
     }
 }
