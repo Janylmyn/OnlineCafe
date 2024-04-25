@@ -7,7 +7,7 @@ using OnlineCafe.Controller;
 
 namespace OnlineCafe.Model
 {
-    internal class Dishes
+    public class Dishes
     {
         public int id;
         public string? Name;
