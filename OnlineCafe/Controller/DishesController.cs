@@ -24,13 +24,17 @@ namespace OnlineCafe.Controller
 
             int productid = -1;
             cmd.ExecuteNonQuery();
-            controller.Getall();
-            Console.WriteLine("Выбери продукт");
-            productid = Convert.ToInt32(Console.ReadLine());
+        
+           
+                controller.Getall();
+                Console.WriteLine("Выбери продукт");
+                productid = Convert.ToInt32(Console.ReadLine());
+
                 Console.WriteLine("Сколько кг возмешь");
                 decimal Gram = Convert.ToDecimal(Console.ReadLine());
                 Console.WriteLine("Чтобы выйти нажмите 0");
                 ingredients.ProductSelection(productid, Gram, dishes.id);
+            
             
         }
 

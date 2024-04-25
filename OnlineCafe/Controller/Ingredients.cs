@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Npgsql;
 using OnlineCafe.Model;
+using System.Text;
 
 namespace OnlineCafe.Controller
 {
@@ -26,16 +27,17 @@ namespace OnlineCafe.Controller
             {
                 string productName = reader.GetString(0);
                 decimal productPrice = reader.GetDecimal(1);
+                Dictionary<string, decimal> productData = [];
 
-               
-                var productData = new
-                {
-                    name = productName,
-                    weight = weight
-                };
+                productData.Add(productName, weight);
+
                 string jsonString = JsonConvert.SerializeObject(productData);
-
+        
                 addingredients(jsonString, id_dishes);
+     
+                    
+                
+
 
             }
             else
