@@ -32,8 +32,8 @@ namespace OnlineCafe.Controller
                 string productName = reader.GetString(0);
                 decimal productPrice = reader.GetDecimal(1);
 
-                sumprice!.Add(productPrice * weight);
-                sumweight!.Add(weight);
+                sumprice.Add(productPrice * weight);
+                sumweight.Add(weight);
                 productData.Add(productName, weight);
 
             }
