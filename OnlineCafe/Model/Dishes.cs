@@ -12,8 +12,8 @@ namespace OnlineCafe.Model
         public int id;
         public string? Name;
         public decimal? Price;
-        public List<Ingredients>? Ingredients;
-        public float? weight;
+        public Dictionary<string,decimal>? Ingredients;
+        public decimal? weight;
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Newtonsoft.Json;
+using Npgsql;
 using OnlineCafe.Model;
 
 namespace OnlineCafe.Controller
@@ -15,27 +16,15 @@ namespace OnlineCafe.Controller
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
 
+            string jsonString = JsonConvert.SerializeObject(dishes.Ingredients);
+            cmd.CommandText = "INSERT INTO dishes (name,price,ingredients,weight) VALUES (@name,@price,@ingredients,@weight)";
 
-            cmd.CommandText = "INSERT INTO dishes (id,name,price) VALUES (@id,@name,@price)";
-
-            cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, dishes.id!);
             cmd.Parameters.AddWithValue("name", NpgsqlTypes.NpgsqlDbType.Varchar, dishes.Name!);
             cmd.Parameters.AddWithValue("price", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.Price!);
+            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, jsonString);
+            cmd.Parameters.AddWithValue("weight", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.weight!);
 
-            int productid = -1;
             cmd.ExecuteNonQuery();
-        
-           
-                controller.Getall();
-                Console.WriteLine("Выбери продукт");
-                productid = Convert.ToInt32(Console.ReadLine());
-
-                Console.WriteLine("Сколько кг возмешь");
-                decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                Console.WriteLine("Чтобы выйти нажмите 0");
-                ingredients.ProductSelection(productid, Gram, dishes.id);
-            
-            
         }
 
         public void Getall()
@@ -54,5 +43,38 @@ namespace OnlineCafe.Controller
             }
 
         }
+
+        public void DeliteDishes(Dishes dishes)
+        {
+            Console.Clear();
+            using var conn = new NpgsqlConnection(controller.connString);
+            conn.Open();
+            using var cmd = new NpgsqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "DELETE FROM dishes WHERE id = @value";
+
+
+            cmd.Parameters.AddWithValue("value", NpgsqlTypes.NpgsqlDbType.Integer, dishes.id!);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+        }
+        public void EditDishes(Dishes dishes)
+        {
+            Console.Clear();
+            using var conn = new NpgsqlConnection(controller.connString);
+            conn.Open();
+            using var cmd = new NpgsqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "UPDATE dishes SET name = @newName, ingredients = @ingredients, price = @price, weight = @weight  WHERE id = @id";
+            cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, dishes.id!);
+            cmd.Parameters.AddWithValue("newName", NpgsqlTypes.NpgsqlDbType.Varchar, dishes.Name!);
+            cmd.Parameters.AddWithValue("price",NpgsqlTypes.NpgsqlDbType.Numeric,dishes.Price!);
+            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, dishes.Ingredients!);
+            cmd.Parameters.AddWithValue("weight",NpgsqlTypes.NpgsqlDbType.Numeric, dishes.weight!);
+
+            cmd.ExecuteNonQuery();
+        }
+
     }
 }
