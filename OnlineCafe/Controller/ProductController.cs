@@ -43,7 +43,7 @@ namespace OnlineCafe.Controller
             }
 
         }  
-        public void DeliteProduct(Product product)
+        public void DeleteProduct(Product product)
         {
             Console.Clear();
             using var conn = new NpgsqlConnection( connString);

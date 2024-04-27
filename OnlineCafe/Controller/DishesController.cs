@@ -44,7 +44,7 @@ namespace OnlineCafe.Controller
 
         }
 
-        public void DeliteDishes(Dishes dishes)
+        public void DeleteDishes(Dishes dishes)
         {
             Console.Clear();
             using var conn = new NpgsqlConnection(controller.connString);
@@ -67,11 +67,12 @@ namespace OnlineCafe.Controller
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = "UPDATE dishes SET name = @newName, ingredients = @ingredients, price = @price, weight = @weight  WHERE id = @id";
+            string jsonString = JsonConvert.SerializeObject(dishes.Ingredients);
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, dishes.id!);
             cmd.Parameters.AddWithValue("newName", NpgsqlTypes.NpgsqlDbType.Varchar, dishes.Name!);
-            cmd.Parameters.AddWithValue("price",NpgsqlTypes.NpgsqlDbType.Numeric,dishes.Price!);
-            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, dishes.Ingredients!);
-            cmd.Parameters.AddWithValue("weight",NpgsqlTypes.NpgsqlDbType.Numeric, dishes.weight!);
+            cmd.Parameters.AddWithValue("price", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.Price!);
+            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, jsonString);
+            cmd.Parameters.AddWithValue("weight", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.weight!);
 
             cmd.ExecuteNonQuery();
         }

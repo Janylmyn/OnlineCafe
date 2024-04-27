@@ -68,19 +68,19 @@ namespace OnlineCafe.View
             Console.WriteLine("Измените название");
             dishes.Name = Console.ReadLine();
             int productid = -1;
-            /*
 
-                            Console.Clear();
-                            controller.Getall();
-                            Console.WriteLine("Выбери продукт для ингредиента");
-                            productid = Convert.ToInt32(Console.ReadLine());
-                            Console.WriteLine("Сколько кг возмешь");
-                            decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                            Console.WriteLine("Чтобы выйти нажмите 0");
-                            dishes.Ingredients = ingredients.ProductSelection(productid, Gram);*/
 
-       /*     dishes.Price = ingredients.sumprice!.Sum();
-            dishes.weight = ingredients.sumweight!.Sum();*/
+            Console.Clear();
+            controller.Getall();
+            Console.WriteLine("Выбери продукт для ингредиента");
+            productid = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Сколько кг возмешь");
+            decimal Gram = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Чтобы выйти нажмите 0");
+            dishes.Ingredients = ingredients.ProductSelection(productid, Gram);
+
+            dishes.Price = ingredients.sumprice!.Sum();
+            dishes.weight = ingredients.sumweight!.Sum();
             dishesController.EditDishes(dishes);
 
             dishesController.Getall();
