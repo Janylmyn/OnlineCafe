@@ -14,6 +14,6 @@ namespace OnlineCafe.Model
         public decimal? Price;
         public Dictionary<string,decimal>? Ingredients;
         public decimal? weight;
-
+        public int? restaurant_id;
     }
 }

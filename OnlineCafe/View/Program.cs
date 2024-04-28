@@ -11,12 +11,80 @@ namespace OnlineCafe.View
         {
             Product product = new();
             ProductController controller = new();
-            Dishes dishes = new();
+
             DishesController dishesController = new();
             Ingredients ingredients = new();
+            RestaurantI restaurant = new();
+            EmployeeController employeeController = new();
+            Employees employees = new();
+            RestaurantController restaurantController = new();
+            Dishes dishes = new();
 
-            /*
-                        Console.WriteLine("Добро пожаловать хозяин");
+/*            Console.WriteLine("Добро пожаловать хозяин");
+            Console.WriteLine("Название ресторана");
+            restaurant.Name = Console.ReadLine();
+
+
+
+
+            Console.WriteLine("Имя Шеф повара");
+            employees.Name = Console.ReadLine();
+            employees.position = "Шеф повар";
+            restaurant.Chef = employees.Name;
+            Console.WriteLine("обслуживание");
+            restaurant.Service = Convert.ToInt32(Console.ReadLine());
+
+            employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+            
+
+      Console.WriteLine("зарплата");
+            employees.salary = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Начало его смены");
+            employees.start_schedule = Console.ReadLine();
+            Console.WriteLine("Конец его смены");
+            employees.end_schedule = Console.ReadLine();
+
+            employeeController.Addemployees(employees);*/
+
+
+          
+
+/*            while (dishes.id != null)
+            {
+                dishesController.Getall();
+                dishes.id = Convert.ToInt32(Console.ReadLine());
+                dishesController.DeleteDishes(dishes);
+            }*/
+
+            /*  while (true)
+              {
+                  restaurantController.Getall();
+                  Console.WriteLine("выберите какой хотите удалить");
+                  restaurant.id = Convert.ToInt32(Console.ReadLine());
+                  restaurantController.DeleteProduct(restaurant);
+              }*/
+
+
+
+
+
+/*            Console.WriteLine("Добавьте сотрудника");
+
+            Console.WriteLine("Имя сотрудника");
+            employees.Name = Console.ReadLine();
+            Console.WriteLine("должность");
+            employees.position = Console.ReadLine();
+            Console.WriteLine("зарплата");
+            employees.salary = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Начало его смены");
+            employees.start_schedule = Console.ReadLine();
+            Console.WriteLine("Конец его смены");
+            employees.end_schedule = Console.ReadLine();
+            employeeController.Addemployees(employees);
+*/
+
+
+            /*            Console.WriteLine("Добро пожаловать хозяин");
                         Console.WriteLine("название продукта:");
                         product.Name = Console.ReadLine();
                         Console.WriteLine("Тип продукта");
@@ -27,11 +95,14 @@ namespace OnlineCafe.View
                         Console.Clear();
                         controller.AddProduct(product);
 
-                        controller.Getall();*/
+                        controller.Getall();
 
+            */
 
+/*            Console.WriteLine("Добавление блюда");
 
-     /*       dishesController.Getall();
+            
+
             Console.WriteLine("Укажите название");
             dishes.Name = Console.ReadLine();
 
@@ -54,44 +125,42 @@ namespace OnlineCafe.View
             Console.Clear();
 
             dishes.weight = ingredients.sumweight!.Sum();
-
-            dishesController.AddDishes(dishes);
-
-            dishesController.Getall();*/
+            dishes.restaurant_id = employees.restaurant_id;
+         dishesController.AddDishes(dishes);*/
 
 
 
-            dishesController.Getall();
-            Console.WriteLine("Изменить блюда");
-            Console.WriteLine("выберите блюда");
-            dishes.id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Измените название");
-            dishes.Name = Console.ReadLine();
-            int productid = -1;
+
+            /*          dishesController.Getall();
+                      Console.WriteLine("Изменить блюда");
+                      Console.WriteLine("выберите блюда");
+                      dishes.id = Convert.ToInt32(Console.ReadLine());
+                      Console.WriteLine("Измените название");
+                      dishes.Name = Console.ReadLine();
+                      int productid = -1;
+
+                      Console.Clear();
+                      controller.Getall();
+                      Console.WriteLine("Выбери продукт для ингредиента");
+                      productid = Convert.ToInt32(Console.ReadLine());
+                      Console.WriteLine("Сколько кг возмешь");
+                      decimal Gram = Convert.ToDecimal(Console.ReadLine());
+                      Console.WriteLine("Чтобы выйти нажмите 0");
+                      dishes.Ingredients = ingredients.ProductSelection(productid, Gram);
+
+                      dishes.Price = ingredients.sumprice!.Sum();
+                      dishes.weight = ingredients.sumweight!.Sum();
+                      dishesController.EditDishes(dishes);
+
+                      dishesController.Getall();*/
+            /*
+                        controller.Getall();
+                        Console.WriteLine("Удалите Продукт");
+                        product.Id = Convert.ToInt32(Console.ReadLine());
+                        controller.DeliteProduct(product);
 
 
-            Console.Clear();
-            controller.Getall();
-            Console.WriteLine("Выбери продукт для ингредиента");
-            productid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Сколько кг возмешь");
-            decimal Gram = Convert.ToDecimal(Console.ReadLine());
-            Console.WriteLine("Чтобы выйти нажмите 0");
-            dishes.Ingredients = ingredients.ProductSelection(productid, Gram);
-
-            dishes.Price = ingredients.sumprice!.Sum();
-            dishes.weight = ingredients.sumweight!.Sum();
-            dishesController.EditDishes(dishes);
-
-            dishesController.Getall();
-/*
-            controller.Getall();
-            Console.WriteLine("Удалите Продукт");
-            product.Id = Convert.ToInt32(Console.ReadLine());
-            controller.DeliteProduct(product);
-
-
-            controller.Getall();*/
+                        controller.Getall();*/
 
             /*
                         Console.WriteLine("Выберите продукт");
