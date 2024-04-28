@@ -41,7 +41,7 @@ namespace OnlineCafe.View
             employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
             Console.WriteLine("Обработка данных");
             Console.WriteLine("пожалуста подожди");
-            
+            Thread.Sleep(1000);
             Console.WriteLine("зарплата");
             employees.salary = Convert.ToDecimal(Console.ReadLine());
             Console.WriteLine("Начало его смены");
