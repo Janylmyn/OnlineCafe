@@ -20,7 +20,11 @@ namespace OnlineCafe.View
             RestaurantController restaurantController = new();
             Dishes dishes = new();
 
-/*            Console.WriteLine("Добро пожаловать хозяин");
+
+
+
+
+            Console.WriteLine("Добро пожаловать хозяин");
             Console.WriteLine("Название ресторана");
             restaurant.Name = Console.ReadLine();
 
@@ -35,26 +39,27 @@ namespace OnlineCafe.View
             restaurant.Service = Convert.ToInt32(Console.ReadLine());
 
             employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+            Console.WriteLine("Обработка данных");
+            Console.WriteLine("пожалуста подожди");
             
-
-      Console.WriteLine("зарплата");
+            Console.WriteLine("зарплата");
             employees.salary = Convert.ToDecimal(Console.ReadLine());
             Console.WriteLine("Начало его смены");
             employees.start_schedule = Console.ReadLine();
             Console.WriteLine("Конец его смены");
             employees.end_schedule = Console.ReadLine();
 
-            employeeController.Addemployees(employees);*/
+            employeeController.Addemployees(employees);
 
 
-          
 
-/*            while (dishes.id != null)
-            {
-                dishesController.Getall();
-                dishes.id = Convert.ToInt32(Console.ReadLine());
-                dishesController.DeleteDishes(dishes);
-            }*/
+
+            /*            while (dishes.id != null)
+                        {
+                            dishesController.Getall();
+                            dishes.id = Convert.ToInt32(Console.ReadLine());
+                            dishesController.DeleteDishes(dishes);
+                        }*/
 
             /*  while (true)
               {
@@ -68,20 +73,20 @@ namespace OnlineCafe.View
 
 
 
-/*            Console.WriteLine("Добавьте сотрудника");
+            /*            Console.WriteLine("Добавьте сотрудника");
 
-            Console.WriteLine("Имя сотрудника");
-            employees.Name = Console.ReadLine();
-            Console.WriteLine("должность");
-            employees.position = Console.ReadLine();
-            Console.WriteLine("зарплата");
-            employees.salary = Convert.ToDecimal(Console.ReadLine());
-            Console.WriteLine("Начало его смены");
-            employees.start_schedule = Console.ReadLine();
-            Console.WriteLine("Конец его смены");
-            employees.end_schedule = Console.ReadLine();
-            employeeController.Addemployees(employees);
-*/
+                        Console.WriteLine("Имя сотрудника");
+                        employees.Name = Console.ReadLine();
+                        Console.WriteLine("должность");
+                        employees.position = Console.ReadLine();
+                        Console.WriteLine("зарплата");
+                        employees.salary = Convert.ToDecimal(Console.ReadLine());
+                        Console.WriteLine("Начало его смены");
+                        employees.start_schedule = Console.ReadLine();
+                        Console.WriteLine("Конец его смены");
+                        employees.end_schedule = Console.ReadLine();
+                        employeeController.Addemployees(employees);
+            */
 
 
             /*            Console.WriteLine("Добро пожаловать хозяин");
@@ -99,9 +104,9 @@ namespace OnlineCafe.View
 
             */
 
-/*            Console.WriteLine("Добавление блюда");
+            Console.WriteLine("Добавление блюда");
 
-            
+
 
             Console.WriteLine("Укажите название");
             dishes.Name = Console.ReadLine();
@@ -126,8 +131,9 @@ namespace OnlineCafe.View
 
             dishes.weight = ingredients.sumweight!.Sum();
             dishes.restaurant_id = employees.restaurant_id;
-         dishesController.AddDishes(dishes);*/
+            dishesController.AddDishes(dishes);
 
+            dishesController.Getall();
 
 
 

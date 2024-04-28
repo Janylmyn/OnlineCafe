@@ -13,7 +13,7 @@ namespace OnlineCafe.Controller
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
 
-            cmd.CommandText = "INSERT INTO restaurant (name, chef_name, servicecharge) VALUES (@name, @chef_name, @servicecharge) RETURNING restaurant_id";
+            cmd.CommandText = "INSERT INTO restaurant (restaurant_name, chef_name, servicecharge) VALUES (@name, @chef_name, @servicecharge) RETURNING restaurant_id";
 
             cmd.Parameters.AddWithValue("name", NpgsqlTypes.NpgsqlDbType.Varchar, restaurant.Name!);
             cmd.Parameters.AddWithValue("chef_name", NpgsqlTypes.NpgsqlDbType.Varchar, restaurant.Chef!);

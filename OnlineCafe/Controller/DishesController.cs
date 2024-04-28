@@ -41,16 +41,15 @@ namespace OnlineCafe.Controller
             using var conn = new NpgsqlConnection(controller.connString);
             conn.Open();
 
-            using var cmd = new NpgsqlCommand("SELECT * FROM dishes", conn);
+            using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight, r.name AS restaurant_name FROM dishes d LEFT JOIN restaurants r ON d.restaurant_id = r.id", conn);
             using var reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
-                while (reader.Read())
+                do
                 {
-                    Console.WriteLine($" id: {reader["id"]},Название: {reader["name"]}, Цена :{reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]}");
-
-                }
+                    Console.WriteLine($" id: {reader["id"]}, Название: {reader["name"]}, Цена: {reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]},\n из Ресторана: {reader["restaurant_name"]} ");
+                } while (reader.Read());
             }
             else
             {
