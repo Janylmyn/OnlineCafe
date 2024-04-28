@@ -34,26 +34,48 @@ namespace OnlineCafe.Controller
 
             cmd.ExecuteNonQuery();
         }
-
-        public void Getall()
+        public void GetallFromres(int restaurantId)
         {
-            Console.WriteLine("Все Блюда");
+            Console.WriteLine($"Все блюда из ресторана с id {restaurantId}");
             using var conn = new NpgsqlConnection(controller.connString);
             conn.Open();
 
-            using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight, r.name AS restaurant_name FROM dishes d LEFT JOIN restaurants r ON d.restaurant_id = r.id", conn);
+            using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight FROM dishes d WHERE d.restaurant_id = @restaurantId", conn);
+            cmd.Parameters.AddWithValue("restaurantId", restaurantId);
+
             using var reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
                 do
                 {
-                    Console.WriteLine($" id: {reader["id"]}, Название: {reader["name"]}, Цена: {reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]},\n из Ресторана: {reader["restaurant_name"]} ");
+                    Console.WriteLine($" id: {reader["id"]}, Название: {reader["name"]}, Цена: {reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]} ");
                 } while (reader.Read());
             }
             else
             {
-                Console.WriteLine("Вашем ресторане нет блюд");
+                Console.WriteLine("В выбранном ресторане нет блюд");
+            }
+        }
+        public void Getall()
+        {
+            Console.WriteLine("Все Блюда");
+            using var conn = new NpgsqlConnection(controller.connString);
+            conn.Open();
+
+            using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight, r.restaurant_name AS restaurant_name FROM dishes d LEFT JOIN restaurant r ON d.restaurant_id = r.restaurant_id", conn);
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                do
+                {
+                    Console.WriteLine($" id: {reader["id"]}, Название: {reader["name"]}, Цена: {reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]},\n из Ресторана: {reader["restaurant_name"]}");
+                } while (reader.Read());
+            }
+            else
+            {
+                Console.WriteLine("В этом ресторане нет блюд");
             }
         }
 

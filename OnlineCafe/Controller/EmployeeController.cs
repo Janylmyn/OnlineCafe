@@ -27,30 +27,28 @@ namespace OnlineCafe.Controller
             cmd.ExecuteNonQuery();
 
         }
-        public void Getall()
+        public void GetallFromres(int restaurantId)
         {
-
-            Console.WriteLine("Все сотруднки");
+            Console.WriteLine($"Все блюда из ресторана с id {restaurantId}");
             using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
 
-            using var cmd = new NpgsqlCommand("SELECT * FROM employee", conn);
+            using var cmd = new NpgsqlCommand("SELECT e.id, e.name, e.position, e.salary, e.start_schedule,e.end_schedule FROM employee e WHERE e.restaurant_id = @restaurantId", conn);
+            cmd.Parameters.AddWithValue("restaurantId", restaurantId);
+
             using var reader = cmd.ExecuteReader();
 
-          
             if (reader.Read())
             {
-                while (reader.Read())
+                do
                 {
-                    Console.WriteLine($" id: {reader["id"]} Имя: {reader["name"]} Должность :{reader["position"]}\n Зарплата: {reader["salary"]}\n Начало работы: {reader["start_schedule"]} Конец работы: {reader["end_schedule"]}");
-
-                }
+                    Console.WriteLine($" id: {reader["id"]}, имя: {reader["name"]}, должность: {reader["position"]},\n зарплата: {reader["salary"]},\n начало работы: {reader["start_schedule"]} \n  конец работы :{reader["end_schedule"]} ");
+                } while (reader.Read());
             }
             else
             {
-                Console.WriteLine("Вашем ресторане нет сотрудников");
+                Console.WriteLine("В выбранном ресторане нет блюд");
             }
-
         }
     }
 }
