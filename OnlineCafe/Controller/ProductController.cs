@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Npgsql;
 using OnlineCafe.Model;
 
 namespace OnlineCafe.Controller
@@ -26,9 +28,8 @@ namespace OnlineCafe.Controller
             cmd.ExecuteNonQuery();
         }
 
-        public void Getall()
+        public void GetAll()
         {
-            
             Console.WriteLine("Все продукты");
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
@@ -38,15 +39,64 @@ namespace OnlineCafe.Controller
             
             while (reader.Read())
             {
-                Console.WriteLine($" id: {reader["id"]},Название: {reader["name"]}, тип :{reader["product_type"]}, цена за грамм: {reader["price"]}");
-               
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"id:{reader["id"]} Название: {reader["name"]} Тип: {reader["product_type"]}  Цена за грамм: {reader["price"]}");
+               Console.ResetColor();
+            }
+        }
+
+        public List<string> FrequentlyUsedProductFromRestaurant(int restaurantId)
+        {
+            List<string> Product = new List<string>();
+
+            using (var connection = new NpgsqlConnection(connString))
+            {
+                connection.Open();
+
+                using var cmd = new NpgsqlCommand("SELECT ingredients FROM dishes WHERE restaurant_id = @restaurantId", connection);
+                cmd.Parameters.AddWithValue("restaurantId", restaurantId);
+          
+                using var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string ingredientsJson = reader.GetString(0);
+                    JObject obj = JObject.Parse(ingredientsJson);
+                    foreach (var pair in obj)
+                    {
+                        string ingredient = pair.Key;
+
+                        Product.Add(ingredient);
+
+                    }
+                }
             }
 
-        }  
+            return Product;
+        }
+
+        public void GetAllProductType(string productType)
+        {
+            Console.WriteLine($"Продукты типа '{productType}':");
+            using var conn = new NpgsqlConnection(connString);
+            conn.Open();
+
+            using var cmd = new NpgsqlCommand("SELECT * FROM product WHERE product_type = @productType", conn);
+            cmd.Parameters.AddWithValue("productType", NpgsqlTypes.NpgsqlDbType.Text, productType);
+
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"id:{reader["id"]} Название: {reader["name"]} Тип: {reader["product_type"]}  Цена за грамм: {reader["price"]}");
+                Console.ResetColor();
+            }
+        }
         public void DeleteProduct(Product product)
         {
             Console.Clear();
-            using var conn = new NpgsqlConnection( connString);
+            using var conn = new NpgsqlConnection(connString);
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
@@ -65,7 +115,7 @@ namespace OnlineCafe.Controller
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "UPDATE product SET name = @newName, typeproduct = @Newtype, price = @newPrice  WHERE id = @id";
+            cmd.CommandText = "UPDATE product SET name = @newName, product_type = @Newtype, price = @newPrice  WHERE id = @id";
 
 
             cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, product.Id!);

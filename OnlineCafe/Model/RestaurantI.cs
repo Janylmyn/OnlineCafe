@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineCafe.Model
 {
-    internal class RestaurantI
+    public class RestaurantI
     {
         public int id;
         public string? Name { get; set; }

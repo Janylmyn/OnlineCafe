@@ -3,7 +3,7 @@ using OnlineCafe.Model;
 
 namespace OnlineCafe.Controller
 {
-    internal class RestaurantController
+    public class RestaurantController
     {
         readonly ProductController productController = new();
         public int AddRestaurant(RestaurantI restaurant)
@@ -23,6 +23,8 @@ namespace OnlineCafe.Controller
 
             return insertedId;
         }
+
+
         public void Getall()
         {
 
@@ -35,12 +37,12 @@ namespace OnlineCafe.Controller
 
             while (reader.Read())
             {
-                Console.WriteLine($" id: {reader["restaurantid"]},Название: {reader["name"]}, Шеф повар :{reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
+                Console.WriteLine($" id: {reader["restaurant_id"]},Название: {reader["restaurant_name"]}, Шеф повар :{reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
 
             }
 
         }
-        public void DeleteProduct(RestaurantI restaurant)
+        public void DeleteRestaurant(RestaurantI restaurant)
         {
             Console.Clear();
             using var conn = new NpgsqlConnection(productController.connString);
@@ -58,9 +60,28 @@ namespace OnlineCafe.Controller
             cmd.ExecuteNonQuery();
 
             // Удаление самого ресторана
-            cmd.CommandText = "DELETE FROM restaurant WHERE restaurantid = @restaurantId";
+            cmd.CommandText = "DELETE FROM restaurant WHERE restaurant_id = @restaurantId";
             cmd.ExecuteNonQuery();
         }
 
+        public void EditRestaurant(RestaurantI restaurant)
+        {
+            Console.Clear();
+            using var conn = new NpgsqlConnection(productController.connString);
+            conn.Open();
+            using var cmd = new NpgsqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "UPDATE restaurant SET restaurant_name = @newName, service = @Newtype, chef_name = @newPrice  WHERE restaurant_id = @id";
+
+
+            cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Integer, restaurant.id!);
+            cmd.Parameters.AddWithValue("newName", NpgsqlTypes.NpgsqlDbType.Varchar, restaurant.Name!);
+            cmd.Parameters.AddWithValue("newPrice", NpgsqlTypes.NpgsqlDbType.Varchar, restaurant.Service!);
+            cmd.Parameters.AddWithValue("Newtype", NpgsqlTypes.NpgsqlDbType.Numeric, restaurant.Service!);
+            cmd.ExecuteNonQuery();
+        }
+
+
     }
+    
 }

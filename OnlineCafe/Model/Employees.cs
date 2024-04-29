@@ -1,7 +1,7 @@
 ﻿
 namespace OnlineCafe.Model
 {
-    internal class Employees
+    public class Employees
     {
         public int id;
         public string? Name;
