@@ -265,14 +265,14 @@ namespace OnlineCafe.View
                                                 dishes.Price = Convert.ToDecimal(Console.ReadLine());
                                                 if (dishes.Price > ingredients.sumprice.Sum() * 2)
                                                 {
-                                                    Console.WriteLine($"Сумма не должна вдое привешать себе стоимость: {ingredients.sumprice.Sum()}");
+                                                    Console.WriteLine($"Сумма не должна вдое привешать себестоимость: {ingredients.sumprice.Sum()}");
 
                                                 }
                                                 if (dishes.Price < ingredients.sumprice.Sum())
                                                 {
                                                     Console.WriteLine($"Цена не должна быть меньше себестоимости: {ingredients.sumprice.Sum()}");
                                                 }
-                                                else
+                                                if(dishes.Price < ingredients.sumprice.Sum() * 2 && dishes.Price > ingredients.sumprice.Sum())
                                                 {
                                                     break;
                                                 }
