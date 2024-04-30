@@ -27,9 +27,25 @@ namespace OnlineCafe.Controller
             cmd.ExecuteNonQuery();
 
         }
-        public void GetAllFromRestaurant(int restaurantId)
+
+        public void DeleteDishes(Employees employees)
         {
-            Console.WriteLine($"Все сотрудники ресторана с id {restaurantId}");
+            Console.Clear();
+            using var conn = new NpgsqlConnection(productController.connString);
+            conn.Open();
+            using var cmd = new NpgsqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "DELETE FROM employee WHERE id = @value";
+
+
+            cmd.Parameters.AddWithValue("value", NpgsqlTypes.NpgsqlDbType.Integer, employees.id!);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+        }
+        public Boolean GetAllFromRestaurant(int restaurantId)
+        {
+            Console.WriteLine($"Все сотрудники ресторана");
             using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
 
@@ -38,19 +54,28 @@ namespace OnlineCafe.Controller
 
             using var reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            if (reader.Read())
             {
-                TimeSpan startSchedule = reader.GetTimeSpan(reader.GetOrdinal("start_schedule"));
-                TimeSpan endSchedule = reader.GetTimeSpan(reader.GetOrdinal("end_schedule"));
+                do 
+                {
+                    TimeSpan startSchedule = reader.GetTimeSpan(reader.GetOrdinal("start_schedule"));
+                    TimeSpan endSchedule = reader.GetTimeSpan(reader.GetOrdinal("end_schedule"));
 
-                TimeSpan currentTime = DateTime.Now.TimeOfDay;
+                    TimeSpan currentTime = DateTime.Now.TimeOfDay;
 
-                bool isWorking = currentTime >= startSchedule && currentTime <= endSchedule;
+                    bool isWorking = currentTime >= startSchedule && currentTime <= endSchedule;
 
-                string job = isWorking ? "Он пашит в данное время" : "он ушел"; 
-                Console.WriteLine($" id: {reader["id"]}, имя: {reader["name"]}, должность: {reader["position"]},\n зарплата: {reader["salary"]},\n начало работы: {reader["start_schedule"]} \n  конец работы :{reader["end_schedule"]} \n {job}");
-
-                
+                    string job = isWorking ? "Он пашит в данное время" : "он ушел";
+                    Console.WriteLine($" id: {reader["id"]}, имя: {reader["name"]}, должность: {reader["position"]},\n зарплата: {reader["salary"]},\n начало работы: {reader["start_schedule"]} \n  конец работы :{reader["end_schedule"]} \n {job}");
+                } while (reader.Read());
+                return true;
+            }
+          else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("В этом ресторане не кто не работает");
+                Console.ResetColor();
+                return false;
             }
         }
 

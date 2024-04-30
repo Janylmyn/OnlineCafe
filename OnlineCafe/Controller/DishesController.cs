@@ -30,7 +30,7 @@ namespace OnlineCafe.Controller
 
             cmd.ExecuteNonQuery();
         }
-        public void GetallFromres(Dishes dishes)
+        public Boolean GetallFromres(Dishes dishes)
         {
             Console.WriteLine($"Все блюда из ресторана с id {dishes.restaurant_id}");
             using var conn = new NpgsqlConnection(productController.connString);
@@ -47,10 +47,16 @@ namespace OnlineCafe.Controller
                 {
                     Console.WriteLine($" id: {reader["id"]}, Название: {reader["name"]}, Цена: {reader["price"]},\n состав: {reader["ingredients"]},\n Грамовка: {reader["weight"]} ");
                 } while (reader.Read());
+                return true;
             }
             else
             {
+
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("В выбранном ресторане нет блюд");
+                Console.ResetColor();
+                return false;
+
             }
         }
         public void Getall()

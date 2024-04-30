@@ -29,13 +29,15 @@ namespace OnlineCafe.Controller
             using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
 
-            using var cmd = new NpgsqlCommand("SELECT * FROM dishes WHERE restaurant_id = @restaurantId", conn);
+            using var cmd = new NpgsqlCommand("SELECT * FROM restaurant WHERE restaurant_id = @restaurantId", conn);
             cmd.Parameters.AddWithValue("restaurantId", restaurantId);
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine($" id: {reader["id"]} Название: {reader["name"]} / Себестоймость ингредиентов: {reader["price"]} / Состав: {reader["ingredients"]} / Грамовка порции: {reader["weight"]}");
+                
+                Console.WriteLine($" id: {reader["restaurant_id"]} Название: {reader["restaurant_name"]} / имя шефа: {reader["chef_name"]} /обслуживание: {reader["servicecharge"]}");
+                
             }
         }
         public Boolean Getall()
@@ -47,14 +49,17 @@ namespace OnlineCafe.Controller
 
             using var cmd = new NpgsqlCommand("SELECT * FROM restaurant", conn);
             using var reader = cmd.ExecuteReader();
+
             if (reader.Read())
             {
-                return true;
+                Console.WriteLine($" id: {reader["restaurant_id"]}, Название: {reader["restaurant_name"]}, Шеф повар: {reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
+
                 while (reader.Read())
                 {
-                    Console.WriteLine($" id: {reader["restaurant_id"]},Название: {reader["restaurant_name"]}, Шеф повар :{reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
-
+                    Console.WriteLine($" id: {reader["restaurant_id"]}, Название: {reader["restaurant_name"]}, Шеф повар: {reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
                 }
+
+                return true;
             }
             else
             {
