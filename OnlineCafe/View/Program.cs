@@ -24,13 +24,15 @@ namespace OnlineCafe.View
 
          
 
-            Console.WriteLine("Добро пожаловать господин \n что желаете :)");
-
+            Console.WriteLine("Добро пожаловать господин");
+        makers_mainMenu:
+            Console.WriteLine("ЧТо желаете :)");
             string input = InputHelper.GetValueFromConsole("\n1.Посмотреть рестораны\n2.Посмотреть все блюда из всех рестаранов\n3.Посмотреть часто используемый тип продукта\n4.Отцет txt", "1", "2", "3", "4");
             switch (input)
             {
                 case "1":
-                 string input2 = restaurantController.Getall() ? InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Удалить ресторан\n3.Изменить ресторан","1","2","3","0") : InputHelper.GetValueFromConsole("1.Добавьте ресторан", "1","0");
+                makers_main2Menu:
+                    string input2 = restaurantController.Getall() ? InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Удалить ресторан\n3.Изменить ресторан\n0.назад","1","2","3","0") : InputHelper.GetValueFromConsole("1.Добавьте ресторан\n0.назад", "1","0");
 
                     switch (input2)
                     {
@@ -73,29 +75,47 @@ namespace OnlineCafe.View
 
                                     int productid = -1;
 
-                                    while (productid != 0)
+                                    do
                                     {
                                         Console.Clear();
                                         controller.GetAll();
-                                        Console.WriteLine("Выбери продукт для ингредиента");
-                                        productid = Convert.ToInt32(Console.ReadLine());
 
+                                        Console.WriteLine("Выбери продукт для ингредиента");
+                                        Console.WriteLine("Чтобы выйти нажмите 0");
+                                        productid = Convert.ToInt32(Console.ReadLine());
                                         Console.WriteLine("Сколько кг возмешь");
                                         decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                                        Console.WriteLine("Чтобы выйти нажмите 0");
                                         ingredients.productData = ingredients.ProductSelection(productid, Gram);
                                         string json = JsonConvert.SerializeObject(ingredients.productData);
                                         dishes.Ingredients = json;
-                                    }
-                                    Console.WriteLine("Укажите цену");
-                                    dishes.Price = ingredients.sumprice!.Sum();
-                                    Console.Clear();
+                                    }while(productid == 0);
 
+                                    Console.WriteLine("Укажите цену");
+                                    
+                                    while (true)
+                                    {
+                                        dishes.Price = Convert.ToDecimal(Console.ReadLine());
+                                        if (dishes.Price > ingredients.sumprice.Sum()*2)
+                                        {
+                                            Console.WriteLine($"Сумма не должна вдое привешать себе стоимость: {ingredients.sumprice.Sum()}");
+
+                                        }
+                                        if(dishes.Price < ingredients.sumprice.Sum())
+                                        {
+                                            Console.WriteLine($"Цена не должна быть меньше себестоимости: {ingredients.sumprice.Sum()}");
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
                                     dishes.weight = ingredients.sumweight!.Sum();
                                     dishes.restaurant_id = employees.restaurant_id;
                                     dishesController.AddDishes(dishes);
 
                                     dishesController.GetallFromres(dishes);
+
+                                    string input4 = InputHelper.GetValueFromConsole("1.Добавить блюда в ваш ресторан\n2.Добавить сотрудников\n0.назад", "1", "2", "0");
                                     break;
                                 case "2":
                                     Console.WriteLine("Добавьте сотрудника");
@@ -129,8 +149,8 @@ namespace OnlineCafe.View
                                     employeeController.GetAllFromRestaurant(8);
                                     break;
                                 case "0":
-                                    goto case 
-                                    break;
+                                    Console.Clear();
+                                    goto makers_main2Menu;
                             }
 
                             break;
@@ -141,6 +161,12 @@ namespace OnlineCafe.View
                             restaurant.id = Convert.ToInt32(Console.ReadLine());
                             restaurantController.DeleteRestaurant(restaurant);
                             break;
+                        case "3":
+                            Console.WriteLine("изменение ресторана");
+                            break;
+                        case "0":
+                            Console.Clear();
+                            goto makers_mainMenu;
                     }
 
            
@@ -157,7 +183,9 @@ namespace OnlineCafe.View
                     string mostFrequentIngredientValue = mostFrequentIngredient!.Key;
                     Console.WriteLine(mostFrequentIngredientValue);
                     break; 
-                case "4": 
+                case "4":
+                    Console.WriteLine("Посмотрите в файле dataoutput.txt");
+                    dataOutput.WriteAllDishesToFile();
                     break;
             }
 
@@ -182,7 +210,7 @@ namespace OnlineCafe.View
 
 
 
-      
+
 
             /*            while (true)
                         {
@@ -215,7 +243,7 @@ namespace OnlineCafe.View
 
 
 
-            /*           Console.WriteLine("изменение ресторана");*/
+            
 
 
 
