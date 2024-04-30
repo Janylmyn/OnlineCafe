@@ -12,7 +12,7 @@ namespace OnlineCafe.Model
         public int id;
         public string? Name;
         public decimal? Price;
-        public Dictionary<string,decimal>? Ingredients;
+        public string? Ingredients;
         public decimal? weight;
         public int? restaurant_id;
     }

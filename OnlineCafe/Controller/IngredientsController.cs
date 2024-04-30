@@ -7,21 +7,20 @@ using System.Text;
 
 namespace OnlineCafe.Controller
 {
-    public class Ingredients : Product
+    public class IngredientsController : Product
     {
-        public int Weight;
-        public Dictionary<string, decimal> productData = [];
+        public List<Ingredients> productData = [];
         public List<decimal> sumprice = [], sumweight = [];
         readonly ProductController Controller = new ProductController();
 
-        public Dictionary<string,decimal> ProductSelection(int productID, decimal weight)
+        public List<Ingredients> ProductSelection(int productID, decimal weight)
         {
             using var conn = new NpgsqlConnection(Controller.connString);
             conn.Open();
 
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "SELECT name, price FROM product WHERE id = @productId";
+            cmd.CommandText = "SELECT name, price,product_type FROM product WHERE id = @productId";
 
             cmd.Parameters.AddWithValue("productId", NpgsqlTypes.NpgsqlDbType.Integer, productID);
 
@@ -31,10 +30,12 @@ namespace OnlineCafe.Controller
             {
                 string productName = reader.GetString(0);
                 decimal productPrice = reader.GetDecimal(1);
+                string product_type = reader.GetString(2);
 
                 sumprice.Add(productPrice * weight);
                 sumweight.Add(weight);
-                productData.Add(productName, weight);
+                Ingredients ingredients = new Ingredients(productName,weight,product_type);
+                productData.Add(ingredients);
 
             }
             else

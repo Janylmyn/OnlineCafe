@@ -45,7 +45,7 @@ namespace OnlineCafe.Controller
             }
         }
 
-        public List<string> FrequentlyUsedProductFromRestaurant(int restaurantId)
+        public List<string> FrequentlyUsedProductFromRestaurant()
         {
             List<string> Product = new List<string>();
 
@@ -53,22 +53,22 @@ namespace OnlineCafe.Controller
             {
                 connection.Open();
 
-                using var cmd = new NpgsqlCommand("SELECT ingredients FROM dishes WHERE restaurant_id = @restaurantId", connection);
-                cmd.Parameters.AddWithValue("restaurantId", restaurantId);
-          
+                using var cmd = new NpgsqlCommand("SELECT ingredients FROM dishes ", connection);
+
                 using var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
                     string ingredientsJson = reader.GetString(0);
-                    JObject obj = JObject.Parse(ingredientsJson);
-                    foreach (var pair in obj)
+                    List<Ingredients> ingredientsList = JsonConvert.DeserializeObject<List<Ingredients>>(ingredientsJson)!;
+
+                    foreach (var ingredient in ingredientsList)
                     {
-                        string ingredient = pair.Key;
-
-                        Product.Add(ingredient);
-
+                        string productType = ingredient._product_type!;
+                        
+                        Product.Add(productType);
                     }
+
                 }
             }
 

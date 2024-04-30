@@ -1,4 +1,5 @@
-﻿using OnlineCafe.Controller;
+﻿using Newtonsoft.Json;
+using OnlineCafe.Controller;
 using OnlineCafe.Model;
 using System.Linq.Expressions;
 using System.Xml.Linq;
@@ -11,61 +12,65 @@ namespace OnlineCafe.View
         {
             Product product = new();
             ProductController controller = new();
-
             DishesController dishesController = new();
-            Ingredients ingredients = new();
+            IngredientsController ingredients = new();
             RestaurantI restaurant = new();
             EmployeeController employeeController = new();
             Employees employees = new();
             RestaurantController restaurantController = new();
             Dishes dishes = new();
+            DataOutput dataOutput = new();
 
 
 
 
-            /*    var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant(1).GroupBy(x => x)
-                                                   .OrderByDescending(g => g.Count())
-                                                   .FirstOrDefault();*/
-
-            /*            Console.WriteLine("Добро пожаловать хозяин");
-                        Console.WriteLine("Название ресторана");
-                        restaurant.Name = Console.ReadLine();
 
 
 
 
-                        Console.WriteLine("Имя Шеф повара");
-                        employees.Name = Console.ReadLine();
-                        employees.position = "Шеф повар";
-                        restaurant.Chef = employees.Name;
-                        Console.WriteLine("обслуживание");
-                        restaurant.Service = Convert.ToDecimal(Console.ReadLine()) > 20 ? restaurant.Service = 20 / 100 : restaurant.Service / 100;
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Clear();
-                        Console.WriteLine("Обработка данных");
-                        Console.WriteLine("пожалуста подожди");
-                        Console.ResetColor();
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                        employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+            /*      dishes.restaurant_id = 13;
+                  dataOutput.WriteAllDishesToFile();*/
 
-                        Console.WriteLine($"зарплата {restaurant.Chef}");
-                        employees.salary = Convert.ToDecimal(Console.ReadLine());
-                        Console.WriteLine("Начало его смены");
-                        employees.start_schedule = Console.ReadLine();
-                        Console.WriteLine("Конец его смены");
-                        employees.end_schedule = Console.ReadLine();
+            Console.WriteLine("Добро пожаловать хозяин");
+            Console.WriteLine("Название ресторана");
+            restaurant.Name = Console.ReadLine();
 
-                        employeeController.Addemployees(employees);
 
-            */
 
-            /*         while (true)
-                     {
-                         restaurantController.Getall();
-                         restaurant.id = Convert.ToInt32(Console.ReadLine());
-                         restaurantController.DeleteRestaurant(restaurant);
-                     }*/
+
+            Console.WriteLine("Имя Шеф повара");
+            employees.Name = Console.ReadLine();
+            employees.position = "Шеф повар";
+            restaurant.Chef = employees.Name;
+            Console.WriteLine("обслуживание");
+            decimal service = Convert.ToDecimal(Console.ReadLine());
+            restaurant.Service = service / 100;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Clear();
+            Console.WriteLine("Обработка данных");
+            Console.WriteLine("пожалуста подожди");
+            Console.ResetColor();
+            Thread.Sleep(2000);
+            Console.Clear();
+            employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+
+            Console.WriteLine($"зарплата {restaurant.Chef}");
+            employees.salary = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Начало его смены");
+            employees.start_schedule = Console.ReadLine();
+            Console.WriteLine("Конец его смены");
+            employees.end_schedule = Console.ReadLine();
+
+            employeeController.AddEmployees(employees);
+
+
+
+            /*          while (true)
+                      {
+                          restaurantController.Getall();
+                          restaurant.id = Convert.ToInt32(Console.ReadLine());
+                          restaurantController.DeleteRestaurant(restaurant);
+                      }*/
 
 
 
@@ -130,40 +135,51 @@ namespace OnlineCafe.View
 
 
 
-            Console.WriteLine("изменение ресторана");
-
-            
-            /*      Console.WriteLine("Добавление блюда");
+            /*           Console.WriteLine("изменение ресторана");*/
 
 
 
-                  Console.WriteLine("Укажите название");
-                  dishes.Name = Console.ReadLine();
 
-                  int productid = -1;
+              Console.WriteLine("Добавление блюда");
 
-                  while (productid != 0)
-                  {
-                      Console.Clear();
-                      controller.GetAll();
-                      Console.WriteLine("Выбери продукт для ингредиента");
-                      productid = Convert.ToInt32(Console.ReadLine());
 
-                      Console.WriteLine("Сколько кг возмешь");
-                      decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                      Console.WriteLine("Чтобы выйти нажмите 0");
-                      dishes.Ingredients = ingredients.ProductSelection(productid, Gram);
-                  }
-                  Console.WriteLine("Укажите цену");
-                  dishes.Price = ingredients.sumprice!.Sum();
+
+              Console.WriteLine("Укажите название");
+              dishes.Name = Console.ReadLine();
+
+              int productid = -1;
+
+              while (productid != 0)
+              {
                   Console.Clear();
+                  controller.GetAll();
+                  Console.WriteLine("Выбери продукт для ингредиента");
+                  productid = Convert.ToInt32(Console.ReadLine());
 
-                  dishes.weight = ingredients.sumweight!.Sum();
-                  dishes.restaurant_id = 12;
-                  dishesController.AddDishes(dishes);
+                  Console.WriteLine("Сколько кг возмешь");
+                  decimal Gram = Convert.ToDecimal(Console.ReadLine());
+                  Console.WriteLine("Чтобы выйти нажмите 0");
+                  ingredients.productData = ingredients.ProductSelection(productid, Gram);
+                  string json = JsonConvert.SerializeObject(ingredients.productData);
+                  dishes.Ingredients = json;
+              }
+              Console.WriteLine("Укажите цену");
+              dishes.Price = ingredients.sumprice!.Sum();
+              Console.Clear();
 
-                  dishesController.GetallFromres(12);*/
-            /*            employeeController.GetallFromres(12);*/
+              dishes.weight = ingredients.sumweight!.Sum();
+              dishes.restaurant_id = 13;
+              dishesController.AddDishes(dishes);
+
+              dishesController.GetallFromres(dishes);
+
+
+              var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant(13).GroupBy(x => x)
+                                                .OrderByDescending(g => g.Count())
+                                                .FirstOrDefault();
+              string mostFrequentIngredientValue = mostFrequentIngredient!.Key;
+              Console.WriteLine(mostFrequentIngredientValue);
+            /* employeeController.GetallFromres(12);*/
 
 
 

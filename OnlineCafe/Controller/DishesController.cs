@@ -6,42 +6,38 @@ namespace OnlineCafe.Controller
 {
     public class DishesController
     {
-        readonly ProductController controller;
-        readonly Ingredients ingredients;
+        ProductController productController = new();
+        
 
-        public DishesController()
-        {
-            controller = new ProductController();
-            ingredients = new Ingredients();
-        }
+      
 
         public void AddDishes(Dishes dishes)
         {
 
-            using var conn = new NpgsqlConnection(controller.connString);
+            using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
 
-            string jsonString = JsonConvert.SerializeObject(dishes.Ingredients);
+           
             cmd.CommandText = "INSERT INTO dishes (name,price,ingredients,weight,restaurant_id) VALUES (@name,@price,@ingredients,@weight,@restaurant_id)";
 
             cmd.Parameters.AddWithValue("name", NpgsqlTypes.NpgsqlDbType.Varchar, dishes.Name!);
             cmd.Parameters.AddWithValue("price", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.Price!);
-            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, jsonString);
+            cmd.Parameters.AddWithValue("ingredients", NpgsqlTypes.NpgsqlDbType.Json, dishes.Ingredients!);
             cmd.Parameters.AddWithValue("weight", NpgsqlTypes.NpgsqlDbType.Numeric, dishes.weight!);
             cmd.Parameters.AddWithValue("restaurant_id", NpgsqlTypes.NpgsqlDbType.Integer, dishes.restaurant_id!);
 
             cmd.ExecuteNonQuery();
         }
-        public void GetallFromres(int restaurantId)
+        public void GetallFromres(Dishes dishes)
         {
-            Console.WriteLine($"Все блюда из ресторана с id {restaurantId}");
-            using var conn = new NpgsqlConnection(controller.connString);
+            Console.WriteLine($"Все блюда из ресторана с id {dishes.restaurant_id}");
+            using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
 
             using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight FROM dishes d WHERE d.restaurant_id = @restaurantId", conn);
-            cmd.Parameters.AddWithValue("restaurantId", restaurantId);
+            cmd.Parameters.AddWithValue("restaurantId", dishes.restaurant_id!);
 
             using var reader = cmd.ExecuteReader();
 
@@ -60,7 +56,7 @@ namespace OnlineCafe.Controller
         public void Getall()
         {
             Console.WriteLine("Все Блюда");
-            using var conn = new NpgsqlConnection(controller.connString);
+            using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
 
             using var cmd = new NpgsqlCommand("SELECT d.id, d.name, d.price, d.ingredients, d.weight, r.restaurant_name AS restaurant_name FROM dishes d LEFT JOIN restaurant r ON d.restaurant_id = r.restaurant_id", conn);
@@ -82,7 +78,7 @@ namespace OnlineCafe.Controller
         public void DeleteDishes(Dishes dishes)
         {
             Console.Clear();
-            using var conn = new NpgsqlConnection(controller.connString);
+            using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;
@@ -97,7 +93,7 @@ namespace OnlineCafe.Controller
         public void EditDishes(Dishes dishes)
         {
             Console.Clear();
-            using var conn = new NpgsqlConnection(controller.connString);
+            using var conn = new NpgsqlConnection(productController.connString);
             conn.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = conn;

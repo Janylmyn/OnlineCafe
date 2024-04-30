@@ -8,7 +8,7 @@ namespace OnlineCafe.Controller
     internal class EmployeeController
     {
         readonly ProductController productController = new();
-        public void Addemployees(Employees employees)
+        public void AddEmployees(Employees employees)
         {
 
             using var conn = new NpgsqlConnection(productController.connString);
