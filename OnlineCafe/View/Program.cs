@@ -22,44 +22,140 @@ namespace OnlineCafe.View
             DataOutput dataOutput = new();
 
 
-
+         
 
             Console.WriteLine("Добро пожаловать господин \n что желаете :)");
 
-           string input = InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Посмотреть рестораны\n3.Удалить ресторан\n4.Изменить ресторан","1","2","3","4");
+            string input = InputHelper.GetValueFromConsole("\n1.Посмотреть рестораны\n2.Посмотреть все блюда из всех рестаранов\n3.Посмотреть часто используемый тип продукта\n4.Отцет txt", "1", "2", "3", "4");
             switch (input)
             {
                 case "1":
-                    Console.WriteLine("Название ресторана");
-                    restaurant.Name = Console.ReadLine();
-                    Console.WriteLine("Имя Шеф повара");
-                    employees.Name = Console.ReadLine();
-                    employees.position = "Шеф повар";
-                    restaurant.Chef = employees.Name;
-                    Console.WriteLine("обслуживание");
-                    decimal service = Convert.ToDecimal(Console.ReadLine());
-                    restaurant.Service = service / 100;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Clear();
-                    Console.WriteLine("Обработка данных");
-                    Console.WriteLine("пожалуста подожди");
-                    Console.ResetColor();
-                    employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine($"зарплата вашего шефа {restaurant.Chef}");
-                    employees.salary = Convert.ToDecimal(Console.ReadLine());
-                    Console.WriteLine("Начало его смены");
-                    employees.start_schedule = Console.ReadLine();
-                    Console.WriteLine("Конец его смены");
-                    employees.end_schedule = Console.ReadLine();
-                    
-                    Console.WriteLine("Хотите добавить блюда в ваш ресторан");
-                
+                 string input2 = restaurantController.Getall() ? InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Удалить ресторан\n3.Изменить ресторан","1","2","3","0") : InputHelper.GetValueFromConsole("1.Добавьте ресторан", "1","0");
+
+                    switch (input2)
+                    {
+                        case "1":
+                            Console.WriteLine("Название ресторана");
+                            restaurant.Name = Console.ReadLine();
+                            Console.WriteLine("Имя Шеф повара");
+                            employees.Name = Console.ReadLine();
+                            employees.position = "Шеф повар";
+                            restaurant.Chef = employees.Name;
+                            Console.WriteLine("обслуживание");
+                            decimal service = Convert.ToDecimal(Console.ReadLine());
+                            restaurant.Service = service / 100;
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Clear();
+                            Console.WriteLine("Обработка данных");
+                            Console.WriteLine("пожалуста подожди");
+                            Console.ResetColor();
+                            employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+                            Thread.Sleep(2000);
+                            Console.Clear();
+                            Console.WriteLine($"зарплата вашего шефа {restaurant.Chef}");
+                            employees.salary = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("Начало его смены");
+                            employees.start_schedule = Console.ReadLine();
+                            Console.WriteLine("Конец его смены");
+                            employees.end_schedule = Console.ReadLine();
+                            
+                            restaurantController.GetOne((int)employees.restaurant_id);
+                            Console.ForegroundColor= ConsoleColor.Yellow;
+                            Console.WriteLine("Ваш новый ресторан поздравляю");
+                            Console.ResetColor();
+                            string input3 = InputHelper.GetValueFromConsole("1.Добавить блюда в ваш ресторан\n2.Добавить сотрудников\n0.назад", "1", "2", "0");
+                            switch (input3)
+                            {
+                                case "1":
+                                    Console.WriteLine("Добавление блюда");
+                                    Console.WriteLine("Укажите название");
+                                    dishes.Name = Console.ReadLine();
+
+                                    int productid = -1;
+
+                                    while (productid != 0)
+                                    {
+                                        Console.Clear();
+                                        controller.GetAll();
+                                        Console.WriteLine("Выбери продукт для ингредиента");
+                                        productid = Convert.ToInt32(Console.ReadLine());
+
+                                        Console.WriteLine("Сколько кг возмешь");
+                                        decimal Gram = Convert.ToDecimal(Console.ReadLine());
+                                        Console.WriteLine("Чтобы выйти нажмите 0");
+                                        ingredients.productData = ingredients.ProductSelection(productid, Gram);
+                                        string json = JsonConvert.SerializeObject(ingredients.productData);
+                                        dishes.Ingredients = json;
+                                    }
+                                    Console.WriteLine("Укажите цену");
+                                    dishes.Price = ingredients.sumprice!.Sum();
+                                    Console.Clear();
+
+                                    dishes.weight = ingredients.sumweight!.Sum();
+                                    dishes.restaurant_id = employees.restaurant_id;
+                                    dishesController.AddDishes(dishes);
+
+                                    dishesController.GetallFromres(dishes);
+                                    break;
+                                case "2":
+                                    Console.WriteLine("Добавьте сотрудника");
+
+                                    Console.WriteLine("Имя сотрудника");
+                                    employees.Name = Console.ReadLine();
+                                    Console.WriteLine("должность\n1шеф-повар\n2офик\n3менеджер");
+                                    employees.position = Console.ReadLine();
+                                    switch (employees.position)
+                                    {
+                                        case "1":
+                                            employees.position = "Шеф повар";
+                                            break;
+                                        case "2":
+                                            employees.position = "Официант";
+                                            break;
+                                        case "3":
+                                            employees.position = "Менеджер";
+                                            break;
+                                    }
+
+                                    Console.WriteLine("зарплата");
+                                    employees.salary = Convert.ToDecimal(Console.ReadLine());
+                                    Console.WriteLine("Начало его смены");
+                                    employees.start_schedule = Console.ReadLine();
+                                    Console.WriteLine("Конец его смены");
+                                    employees.end_schedule = Console.ReadLine();
+                                    employees.restaurant_id = 8;
+                                    employeeController.AddEmployees(employees);
+
+                                    employeeController.GetAllFromRestaurant(8);
+                                    break;
+                                case "0":
+                                    goto case 
+                                    break;
+                            }
+
+                            break;
+
+                        case "2":
+                            restaurantController.Getall();
+                            Console.WriteLine("Выберите id ресторана что бы удалить");
+                            restaurant.id = Convert.ToInt32(Console.ReadLine());
+                            restaurantController.DeleteRestaurant(restaurant);
+                            break;
+                    }
+
+           
+                   
+                 
                     break;
                 case "2":
+
                     break;
                 case "3":
+                    var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant().GroupBy(x => x)
+                                                         .OrderByDescending(g => g.Count())
+                                                         .FirstOrDefault();
+                    string mostFrequentIngredientValue = mostFrequentIngredient!.Key;
+                    Console.WriteLine(mostFrequentIngredientValue);
                     break; 
                 case "4": 
                     break;
@@ -67,7 +163,7 @@ namespace OnlineCafe.View
 
 
 
-            
+
 
 
 
@@ -86,35 +182,7 @@ namespace OnlineCafe.View
 
 
 
-            /*      Console.WriteLine("Добавьте сотрудника");
-
-                  Console.WriteLine("Имя сотрудника");
-                  employees.Name = Console.ReadLine();
-                  Console.WriteLine("должность\n1шеф-повар\n2офик\n3менеджер");
-                  employees.position = Console.ReadLine();
-                  switch (employees.position)
-                  {
-                      case "1":
-                          employees.position = "Шеф повар";
-                          break;
-                      case "2":
-                          employees.position = "Официант";
-                          break;
-                      case "3":
-                          employees.position = "Менеджер";
-                          break;
-                  }
-
-                  Console.WriteLine("зарплата");
-                  employees.salary = Convert.ToDecimal(Console.ReadLine());
-                  Console.WriteLine("Начало его смены");
-                  employees.start_schedule = Console.ReadLine();
-                  Console.WriteLine("Конец его смены");
-                  employees.end_schedule = Console.ReadLine();
-                  employees.restaurant_id = 8;
-                  employeeController.Addemployees(employees);
-
-                  employeeController.GetAllFromRestaurant(8);*/
+      
 
             /*            while (true)
                         {
@@ -152,45 +220,7 @@ namespace OnlineCafe.View
 
 
 
-            Console.WriteLine("Добавление блюда");
 
-
-
-              Console.WriteLine("Укажите название");
-              dishes.Name = Console.ReadLine();
-
-              int productid = -1;
-
-              while (productid != 0)
-              {
-                  Console.Clear();
-                  controller.GetAll();
-                  Console.WriteLine("Выбери продукт для ингредиента");
-                  productid = Convert.ToInt32(Console.ReadLine());
-
-                  Console.WriteLine("Сколько кг возмешь");
-                  decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                  Console.WriteLine("Чтобы выйти нажмите 0");
-                  ingredients.productData = ingredients.ProductSelection(productid, Gram);
-                  string json = JsonConvert.SerializeObject(ingredients.productData);
-                  dishes.Ingredients = json;
-              }
-              Console.WriteLine("Укажите цену");
-              dishes.Price = ingredients.sumprice!.Sum();
-              Console.Clear();
-
-              dishes.weight = ingredients.sumweight!.Sum();
-              dishes.restaurant_id = 13;
-              dishesController.AddDishes(dishes);
-
-              dishesController.GetallFromres(dishes);
-
-
-              var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant().GroupBy(x => x)
-                                                .OrderByDescending(g => g.Count())
-                                                .FirstOrDefault();
-              string mostFrequentIngredientValue = mostFrequentIngredient!.Key;
-              Console.WriteLine(mostFrequentIngredientValue);
             /* employeeController.GetallFromres(12);*/
 
 

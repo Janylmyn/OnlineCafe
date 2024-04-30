@@ -24,8 +24,21 @@ namespace OnlineCafe.Controller
             return insertedId;
         }
 
+        public void GetOne(int restaurantId)
+        {
+            using var conn = new NpgsqlConnection(productController.connString);
+            conn.Open();
 
-        public void Getall()
+            using var cmd = new NpgsqlCommand("SELECT * FROM dishes WHERE restaurant_id = @restaurantId", conn);
+            cmd.Parameters.AddWithValue("restaurantId", restaurantId);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Console.WriteLine($" id: {reader["id"]} Название: {reader["name"]} / Себестоймость ингредиентов: {reader["price"]} / Состав: {reader["ingredients"]} / Грамовка порции: {reader["weight"]}");
+            }
+        }
+        public Boolean Getall()
         {
 
             Console.WriteLine("Все Рестораны");
@@ -34,11 +47,19 @@ namespace OnlineCafe.Controller
 
             using var cmd = new NpgsqlCommand("SELECT * FROM restaurant", conn);
             using var reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            if (reader.Read())
             {
-                Console.WriteLine($" id: {reader["restaurant_id"]},Название: {reader["restaurant_name"]}, Шеф повар :{reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
+                return true;
+                while (reader.Read())
+                {
+                    Console.WriteLine($" id: {reader["restaurant_id"]},Название: {reader["restaurant_name"]}, Шеф повар :{reader["chef_name"]}, Обслуживание: {reader["servicecharge"]}");
 
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ресторанов нет");
+                return false;
             }
 
         }
