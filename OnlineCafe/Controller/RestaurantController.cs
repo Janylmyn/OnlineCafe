@@ -42,6 +42,8 @@ namespace OnlineCafe.Controller
             }
 
         }
+
+
         public void DeleteRestaurant(RestaurantI restaurant)
         {
             Console.Clear();

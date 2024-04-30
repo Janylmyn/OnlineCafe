@@ -24,44 +24,56 @@ namespace OnlineCafe.View
 
 
 
+            Console.WriteLine("Добро пожаловать господин \n что желаете :)");
+
+           string input = InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Посмотреть рестораны\n3.Удалить ресторан\n4.Изменить ресторан","1","2","3","4");
+            switch (input)
+            {
+                case "1":
+                    Console.WriteLine("Название ресторана");
+                    restaurant.Name = Console.ReadLine();
+                    Console.WriteLine("Имя Шеф повара");
+                    employees.Name = Console.ReadLine();
+                    employees.position = "Шеф повар";
+                    restaurant.Chef = employees.Name;
+                    Console.WriteLine("обслуживание");
+                    decimal service = Convert.ToDecimal(Console.ReadLine());
+                    restaurant.Service = service / 100;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Clear();
+                    Console.WriteLine("Обработка данных");
+                    Console.WriteLine("пожалуста подожди");
+                    Console.ResetColor();
+                    employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    Console.WriteLine($"зарплата вашего шефа {restaurant.Chef}");
+                    employees.salary = Convert.ToDecimal(Console.ReadLine());
+                    Console.WriteLine("Начало его смены");
+                    employees.start_schedule = Console.ReadLine();
+                    Console.WriteLine("Конец его смены");
+                    employees.end_schedule = Console.ReadLine();
+                    
+                    Console.WriteLine("Хотите добавить блюда в ваш ресторан");
+                
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break; 
+                case "4": 
+                    break;
+            }
+
+
+
+            
 
 
 
 
-            /*      dishes.restaurant_id = 13;
-                  dataOutput.WriteAllDishesToFile();*/
-
-            Console.WriteLine("Добро пожаловать хозяин");
-            Console.WriteLine("Название ресторана");
-            restaurant.Name = Console.ReadLine();
 
 
-
-
-            Console.WriteLine("Имя Шеф повара");
-            employees.Name = Console.ReadLine();
-            employees.position = "Шеф повар";
-            restaurant.Chef = employees.Name;
-            Console.WriteLine("обслуживание");
-            decimal service = Convert.ToDecimal(Console.ReadLine());
-            restaurant.Service = service / 100;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Clear();
-            Console.WriteLine("Обработка данных");
-            Console.WriteLine("пожалуста подожди");
-            Console.ResetColor();
-            Thread.Sleep(2000);
-            Console.Clear();
-            employees.restaurant_id = restaurantController.AddRestaurant(restaurant);
-
-            Console.WriteLine($"зарплата {restaurant.Chef}");
-            employees.salary = Convert.ToDecimal(Console.ReadLine());
-            Console.WriteLine("Начало его смены");
-            employees.start_schedule = Console.ReadLine();
-            Console.WriteLine("Конец его смены");
-            employees.end_schedule = Console.ReadLine();
-
-            employeeController.AddEmployees(employees);
 
 
 
@@ -140,7 +152,7 @@ namespace OnlineCafe.View
 
 
 
-              Console.WriteLine("Добавление блюда");
+            Console.WriteLine("Добавление блюда");
 
 
 
@@ -174,7 +186,7 @@ namespace OnlineCafe.View
               dishesController.GetallFromres(dishes);
 
 
-              var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant(13).GroupBy(x => x)
+              var mostFrequentIngredient = controller.FrequentlyUsedProductFromRestaurant().GroupBy(x => x)
                                                 .OrderByDescending(g => g.Count())
                                                 .FirstOrDefault();
               string mostFrequentIngredientValue = mostFrequentIngredient!.Key;
