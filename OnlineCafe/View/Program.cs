@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OnlineCafe.Controller;
 using OnlineCafe.Model;
-using System.Linq.Expressions;
-using System.Xml.Linq;
+
 
 namespace OnlineCafe.View
 {
@@ -32,6 +31,7 @@ namespace OnlineCafe.View
             {
                 case "1":
                 makers_main2Menu:
+                    Console.Clear();
                     string input2 = restaurantController.Getall() ? InputHelper.GetValueFromConsole("1.Добавить ресторан\n2.Удалить ресторан\n3.Изменить ресторан\n4.Зайти в Ресторан\n0.назад", "1", "2", "3", "4", "0") : InputHelper.GetValueFromConsole("1.Добавьте ресторан\n0.назад", "1", "0");
 
                     switch (input2)
@@ -70,6 +70,8 @@ namespace OnlineCafe.View
                             switch (input3)
                             {
                                 case "1":
+
+                                makers_mainMenu12:
                                     Console.Clear();
                                     Console.WriteLine("Добавление блюда");
                                     Console.WriteLine("Укажите название");
@@ -77,20 +79,19 @@ namespace OnlineCafe.View
 
                                     int productid = -1;
 
-                                    do
-                                    {
-                                        Console.Clear();
-                                        controller.GetAll();
+                                akers_mainMenu1:
+                                    Console.Clear();
+                                    controller.GetAll();
 
-                                        Console.WriteLine("Выбери продукт для ингредиента");
-                                        Console.WriteLine("Чтобы выйти нажмите 0");
-                                        productid = Convert.ToInt32(Console.ReadLine());
-                                        Console.WriteLine("Сколько кг возмешь");
-                                        decimal Gram = Convert.ToDecimal(Console.ReadLine());
-                                        ingredients.productData = ingredients.ProductSelection(productid, Gram);
-                                        string json = JsonConvert.SerializeObject(ingredients.productData);
-                                        dishes.Ingredients = json;
-                                    } while (productid == 0);
+                                    Console.WriteLine("Выбери продукт для ингредиента");
+                                    Console.WriteLine("Чтобы выйти нажмите 0");
+                                    productid = Convert.ToInt32(Console.ReadLine());
+                                    Console.WriteLine("Сколько кг возмешь");
+                                    decimal Gram2 = Convert.ToDecimal(Console.ReadLine());
+                                    ingredients.productData = ingredients.ProductSelection(productid, Gram2);
+                                    string json = JsonConvert.SerializeObject(ingredients.productData);
+                                    dishes.Ingredients = json;
+                                    if (productid != 0) goto akers_mainMenu1;
 
                                     Console.WriteLine("Укажите цену");
 
@@ -99,14 +100,14 @@ namespace OnlineCafe.View
                                         dishes.Price = Convert.ToDecimal(Console.ReadLine());
                                         if (dishes.Price > ingredients.sumprice.Sum() * 2)
                                         {
-                                            Console.WriteLine($"Сумма не должна вдое привешать себе стоимость: {ingredients.sumprice.Sum()}");
+                                            Console.WriteLine($"Сумма не должна вдое привешать себестоимость: {ingredients.sumprice.Sum()}");
 
                                         }
                                         if (dishes.Price < ingredients.sumprice.Sum())
                                         {
                                             Console.WriteLine($"Цена не должна быть меньше себестоимости: {ingredients.sumprice.Sum()}");
                                         }
-                                        else
+                                        if (dishes.Price < ingredients.sumprice.Sum() * 2 && dishes.Price > ingredients.sumprice.Sum())
                                         {
                                             break;
                                         }
@@ -116,9 +117,17 @@ namespace OnlineCafe.View
                                     dishesController.AddDishes(dishes);
 
                                     dishesController.GetallFromres(dishes);
+                                    switch (InputHelper.GetValueFromConsole("Хотите продолжить\n1.ДА\n2.нет", "1", "2"))
+                                    {
+                                        case "1":
+                                            goto makers_mainMenu12;
+                                        case "2":
+                                            goto makers_main2Menu;
+                                    }
 
                                     break;
                                 case "2":
+                                    makers_mainMenu13:
                                     Console.Clear();
                                     Console.WriteLine("Добавьте сотрудника");
 
@@ -148,8 +157,15 @@ namespace OnlineCafe.View
                                     int a = (int)employees.restaurant_id;
                                      
                                     employeeController.AddEmployees(employees);
-
+                                    Console.Clear() ;
                                     employeeController.GetAllFromRestaurant(a);
+                                    switch (InputHelper.GetValueFromConsole("Хотите продолжить\n1.ДА\n2.нет", "1", "2"))
+                                    {
+                                        case "1":
+                                            goto makers_mainMenu13;
+                                        case "2":
+                                            goto makers_main2Menu;
+                                    }
                                     break;
                                 case "0":
                                     Console.Clear();
@@ -218,6 +234,7 @@ namespace OnlineCafe.View
                             }
                             break;
                         case "4":
+
                             Console.Clear();
                             restaurantController.Getall();
                             Console.WriteLine("Ведите id Ресторана");
@@ -243,8 +260,7 @@ namespace OnlineCafe.View
 
                                             int productid = -1;
 
-                                            do
-                                            {
+                                            akers_mainMenu9:
                                                 Console.Clear();
                                                 controller.GetAll();
 
@@ -256,7 +272,7 @@ namespace OnlineCafe.View
                                                 ingredients.productData = ingredients.ProductSelection(productid, Gram2);
                                                 string json = JsonConvert.SerializeObject(ingredients.productData);
                                                 dishes.Ingredients = json;
-                                            } while (productid == 0);
+                                             if (productid != 0) goto akers_mainMenu9;
 
                                             Console.WriteLine("Укажите цену");
 
@@ -300,20 +316,19 @@ namespace OnlineCafe.View
                                                 Console.WriteLine("Измените название");
                                                 dishes.Name = Console.ReadLine();
 
-                                            do
-                                            {
-                                                Console.Clear();
-                                                controller.GetAll();
+                                        akers_mainMenu8:
+                                            Console.Clear();
+                                            controller.GetAll();
 
-                                                Console.WriteLine("Выбери продукт для ингредиента");
-                                                Console.WriteLine("Чтобы выйти нажмите 0");
-                                                productid = Convert.ToInt32(Console.ReadLine());
-                                                Console.WriteLine("Сколько кг возмешь");
-                                                decimal Gram2 = Convert.ToDecimal(Console.ReadLine());
-                                                ingredients.productData = ingredients.ProductSelection(productid, Gram2);
-                                                string json = JsonConvert.SerializeObject(ingredients.productData);
-                                                dishes.Ingredients = json;
-                                            } while (productid == 0);
+                                            Console.WriteLine("Выбери продукт для ингредиента");
+                                            Console.WriteLine("Чтобы выйти нажмите 0");
+                                            productid = Convert.ToInt32(Console.ReadLine());
+                                            Console.WriteLine("Сколько кг возмешь");
+                                            decimal Gram3 = Convert.ToDecimal(Console.ReadLine());
+                                            ingredients.productData = ingredients.ProductSelection(productid, Gram3);
+                                            json = JsonConvert.SerializeObject(ingredients.productData);
+                                            dishes.Ingredients = json;
+                                            if (productid != 0) goto akers_mainMenu8;
 
 
                                             while (true)
@@ -321,14 +336,14 @@ namespace OnlineCafe.View
                                                 dishes.Price = Convert.ToDecimal(Console.ReadLine());
                                                 if (dishes.Price > ingredients.sumprice.Sum() * 2)
                                                 {
-                                                    Console.WriteLine($"Сумма не должна вдое привешать себе стоимость: {ingredients.sumprice.Sum()}");
+                                                    Console.WriteLine($"Сумма не должна вдое привешать себестоимость: {ingredients.sumprice.Sum()}");
 
                                                 }
                                                 if (dishes.Price < ingredients.sumprice.Sum())
                                                 {
                                                     Console.WriteLine($"Цена не должна быть меньше себестоимости: {ingredients.sumprice.Sum()}");
                                                 }
-                                                else
+                                                if (dishes.Price < ingredients.sumprice.Sum() * 2 && dishes.Price > ingredients.sumprice.Sum())
                                                 {
                                                     break;
                                                 }
