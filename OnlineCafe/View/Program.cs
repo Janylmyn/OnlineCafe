@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OnlineCafe.Controller;
 using OnlineCafe.Model;
+using System.Net.Http.Headers;
 
 
 namespace OnlineCafe.View
@@ -21,12 +22,14 @@ namespace OnlineCafe.View
             DataOutput dataOutput = new();
 
 
-    
-
+        Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Добро пожаловать господин");
+            Console.ResetColor();
         makers_mainMenu:
+            Thread.Sleep(1500);
+            Console.Clear();
             Console.WriteLine("ЧТо желаете :)");
-            string input = InputHelper.GetValueFromConsole("\n1.Посмотреть рестораны\n2.Посмотреть все блюда из всех рестаранов\n3.Посмотреть часто используемый тип продукта\n4.Отчет txt", "1", "2", "3", "4");
+            string input = InputHelper.GetValueFromConsole("1.Посмотреть рестораны\n2.Посмотреть все блюда из всех рестаранов\n3.Посмотреть часто используемый тип продукта\n4.Отчет txt", "1", "2", "3", "4");
             switch (input)
             {
                 case "1":
@@ -133,7 +136,7 @@ namespace OnlineCafe.View
 
                                     Console.WriteLine("Имя сотрудника");
                                     employees.Name = Console.ReadLine();
-                                    Console.WriteLine("должность\n1шеф-повар\n2офик\n3менеджер");
+                                    Console.WriteLine("должность\n1.повар\n2.офик\n3.менеджер");
                                     employees.position = Console.ReadLine();
                                     switch (employees.position)
                                     {
@@ -155,6 +158,7 @@ namespace OnlineCafe.View
                                     Console.WriteLine("Конец его смены");
                                     employees.end_schedule = Console.ReadLine();
                                     int a = (int)employees.restaurant_id;
+                                    employees.restaurant_id = a;
                                      
                                     employeeController.AddEmployees(employees);
                                     Console.Clear() ;
@@ -385,12 +389,12 @@ namespace OnlineCafe.View
 
                                               Console.WriteLine("Имя сотрудника");
                                               employees.Name = Console.ReadLine();
-                                              Console.WriteLine("должность\n1шеф-повар\n2офик\n3менеджер");
+                                              Console.WriteLine("должность\n1.повар\n2.офик\n3.менеджер");
                                               employees.position = Console.ReadLine();
                                               switch (employees.position)
                                               {
                                                   case "1":
-                                                      employees.position = "Шеф повар";
+                                                      employees.position = "повар";
                                                       break;
                                                   case "2":
                                                       employees.position = "Официант";
@@ -406,11 +410,10 @@ namespace OnlineCafe.View
                                               employees.start_schedule = Console.ReadLine();
                                               Console.WriteLine("Конец его смены");
                                               employees.end_schedule = Console.ReadLine();
-                                              int a = (int)employees.restaurant_id!;
-
+                                              employees.restaurant_id = res_id;
                                               employeeController.AddEmployees(employees);
                                             Console.Clear();
-                                            employeeController.GetAllFromRestaurant(a);
+                                            employeeController.GetAllFromRestaurant(res_id);
                                             
                                             switch(InputHelper.GetValueFromConsole("Хотите продолжить\n1.ДА\n2.нет", "1", "2"))
                                             {
